@@ -1,0 +1,21 @@
+{
+  "name": "eonconsulting/roles-permissions",
+  "description": "",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Josh Harington",
+      "email": "josh1@live.co.za"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "EONConsulting\\RolesPermissions\\": "src/"
+    },
+    "files": [
+      "src/functions.php"
+    ]
+  },
+  "require": {
+  }
+}
