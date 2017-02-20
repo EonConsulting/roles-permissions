@@ -30,6 +30,22 @@ class RolesPermissionsDB extends Migration  {
             $table->timestamps();
         });
 
+        Schema::create('permission_groups', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('group_name');
+            $table->timestamps();
+        });
+
+        Schema::create('permission_group_items', function (Blueprint $table) {
+            $table->increments('permission_group_id');
+            $table->integer('group_id')->unsigned();
+            $table->integer('permission_id')->unsigned();
+            $table->timestamps();
+
+            $table->foreign('group_id')->references('id')->on('permission_groups')->onDelete('cascade');
+            $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('cascade');
+        });
+
         Schema::create('departments', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
