@@ -9,15 +9,34 @@
 namespace EONConsulting\RolesPermissions;
 
 
+use EONConsulting\RolesPermissions\Models\Permission;
+use Gate;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class RolesPermissionsServiceProvider extends ServiceProvider {
 
     public function boot() {
         $this->publishMigrations();
+
+        Permission::get()->map(function ($permission) {
+            Gate::define($permission->name, function ($user) use ($permission) {
+                return $user->hasPermissionTo($user->last_department_id, $permission) || $user->hasPermissionTo($user->last_department_id, 'Super Admin');
+            });
+        });
+
+        Blade::directive('role', function ($role) {
+            return "<?php if (auth()->check() && auth()->user()->hasRole({$role})): ?>";
+        });
+
+        Blade::directive('endrole', function ($role) {
+            return "<?php endif; ?>";
+        });
+
     }
 
     public function register() {
+
         $this->app->singleton( 'roles_permissions', function () {
             return new RolesPermissions;
         });
