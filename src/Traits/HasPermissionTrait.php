@@ -14,7 +14,7 @@ use EONConsulting\RolesPermissions\Models\Permission;
 
 trait HasPermissionTrait {
 
-    public function givePermissionTo(...$permissions)
+    public function givePermissionTo($department_id, ...$permissions)
     {
         $permissions = $this->getAllPermissions(array_flatten($permissions));
 
@@ -22,31 +22,31 @@ trait HasPermissionTrait {
             return $this;
         }
 
-        $this->permissions()->saveMany($permissions);
+        $this->permissions()->where('department_id', $department_id)->saveMany($permissions);
 
         return $this;
     }
 
-    public function withdrawPermissionTo(...$permissions)
+    public function withdrawPermissionTo($department_id, ...$permissions)
     {
         $permissions = $this->getAllPermissions(array_flatten($permissions));
 
-        $this->permissions()->detach($permissions);
+        $this->permissions()->where('department_id', $department_id)->detach($permissions);
 
         return $this;
     }
 
-    public function updatePermissions(...$permissions)
+    public function updatePermissions($department_id, ...$permissions)
     {
-        $this->permissions()->detach();
+        $this->permissions()->where('department_id', $department_id)->detach();
 
         return $this->givePermissionTo($permissions);
     }
 
-    public function hasRole(...$roles)
+    public function hasRole($department_id, ...$roles)
     {
         foreach ($roles as $role) {
-            if ($this->roles->contains('name', $role)) {
+            if ($this->roles->with('department_id', $department_id)->contains('name', $role)) {
                 return true;
             }
         }
@@ -54,15 +54,15 @@ trait HasPermissionTrait {
         return false;
     }
 
-    public function hasPermissionTo($permission)
+    public function hasPermissionTo($department_id, $permission)
     {
-        return $this->hasPermissionThroughRole($permission) || $this->hasPermission($permission);
+        return $this->hasPermissionThroughRole($permission, $department_id) || $this->hasPermission($department_id, $permission);
     }
 
-    protected function hasPermissionThroughRole($permission)
+    protected function hasPermissionThroughRole($department_id, $permission)
     {
         foreach ($permission->roles as $role) {
-            if ($this->roles->contains($role)) {
+            if ($this->roles->with('department_id', $department_id)->contains($role)) {
                 return true;
             }
         }
@@ -70,23 +70,19 @@ trait HasPermissionTrait {
         return false;
     }
 
-    protected function hasPermission($permission)
-    {
-        return (bool) $this->permissions->where('name', $permission->name)->count();
+    protected function hasPermission($department_id, $permission) {
+        return (bool) $this->permissions->where('name', $permission->name)->where('department_id', $department_id)->count();
     }
 
-    protected function getAllPermissions(array $permissions)
-    {
+    protected function getAllPermissions(array $permissions) {
         return Permission::whereIn('name', $permissions)->get();
     }
 
-    public function roles()
-    {
+    public function roles() {
         return $this->belongsToMany(Role::class, 'users_roles');
     }
 
-    public function permissions()
-    {
+    public function permissions() {
         return $this->belongsToMany(Permission::class, 'users_permissions');
     }
 
