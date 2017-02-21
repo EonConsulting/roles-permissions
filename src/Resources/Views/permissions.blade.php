@@ -5,8 +5,8 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Permissions</div>
-                    <table class="panel-body table table-hover table-striped">
+                    <div class="panel-heading">Permissions <div class="col-md-6 pull-right"><input type="text" id="txt_search" class="form-control" onkeyup="search()" placeholder="Search Permissions.."></div><div class="clearfix"></div></div>
+                    <table class="panel-body table table-hover table-striped" id="permissions-table">
                         <thead>
                         <tr>
                             <th class="col-md-1">#</th>
@@ -19,10 +19,10 @@
                         @foreach($permissions as $index => $permission)
                             <tr class="clickable-row" data-href="{{ route('eon.admin.permissions.single', $permission->id) }}">
                                 <a href="">
-                                    <th>{{ $index + 1 }}</th>
-                                    <th>{{ $permission->name }}</th>
-                                    <th>{{ $permission->roles->count() }}</th>
-                                    <th>{{ $permission->users->count() }}</th>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $permission->name }}</td>
+                                    <td>{{ $permission->roles->count() }}</td>
+                                    <td>{{ $permission->users->count() }}</td>
                                 </a>
                             </tr>
                         @endforeach
@@ -54,5 +54,26 @@
                 window.document.location = $(this).data("href");
             });
         });
+
+        function search() {
+            // Declare variables
+            var input, filter, table, tr, td, i;
+            input = document.getElementById("txt_search");
+            filter = input.value.toLowerCase();
+            table = document.getElementById("permissions-table");
+            tr = table.getElementsByTagName("tr");
+
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    if (td.innerHTML.toLowerCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
     </script>
 @endsection

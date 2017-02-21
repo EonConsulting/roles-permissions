@@ -41,6 +41,7 @@ class RolesPermissionsServiceProvider extends ServiceProvider {
     }
 
     public function register() {
+
         $this->app->singleton( 'roles_permissions', function () {
             return new RolesPermissions;
         });
