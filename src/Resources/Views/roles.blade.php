@@ -40,6 +40,7 @@
                             Permissions
                         </a>
                         <a href="{{ route('eon.admin.roles.users') }}" class="list-group-item">Users' Roles</a>
+                        <a href="{{ route('eon.admin.departments') }}" class="list-group-item">Departments</a>
                     </div>
                 </div>
             </div>

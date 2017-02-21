@@ -5,24 +5,22 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Permissions <div class="col-md-6 pull-right"><input type="text" id="txt_search" class="form-control" onkeyup="search()" placeholder="Search Permissions.."></div><div class="clearfix"></div></div>
-                    <table class="panel-body table table-hover table-striped" id="permissions-table">
+                    <div class="panel-heading">Roles <div class="col-md-6 pull-right"><input type="text" id="txt_search" class="form-control" onkeyup="search()" placeholder="Search Roles.."></div><div class="clearfix"></div></div>
+                    <table class="panel-body table table-hover table-striped" id="users-table">
                         <thead>
                         <tr>
                             <th class="col-md-1">#</th>
-                            <th class="col-md-7">Permission</th>
+                            <th class="col-md-9">User</th>
                             <th class="col-md-2"># Roles</th>
-                            <th class="col-md-2"># Used</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($permissions as $index => $permission)
-                            <tr class="clickable-row" data-href="{{ route('eon.admin.permissions.single', $permission->id) }}">
+                        @foreach($users as $index => $user)
+                            <tr class="clickable-row" data-href="{{ route('eon.admin.roles.users.single', $user->id) }}">
                                 <a href="">
                                     <td>{{ $index + 1 }}</td>
-                                    <td>{{ $permission->name }}</td>
-                                    <td>{{ $permission->roles->count() }}</td>
-                                    <td>{{ $permission->users->count() }}</td>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->roles->count() }}</td>
                                 </a>
                             </tr>
                         @endforeach
@@ -36,10 +34,10 @@
                         <a href="{{ route('eon.admin.roles') }}" class="list-group-item">
                             Roles
                         </a>
-                        <a href="{{ route('eon.admin.permissions') }}" class="list-group-item active">
+                        <a href="{{ route('eon.admin.permissions') }}" class="list-group-item">
                             Permissions
                         </a>
-                        <a href="{{ route('eon.admin.roles.users') }}" class="list-group-item">Users' Roles</a>
+                        <a href="{{ route('eon.admin.roles.users') }}" class="list-group-item active">Users' Roles</a>
                         <a href="{{ route('eon.admin.departments') }}" class="list-group-item">Departments</a>
                     </div>
                 </div>
@@ -55,13 +53,12 @@
                 window.document.location = $(this).data("href");
             });
         });
-
         function search() {
             // Declare variables
             var input, filter, table, tr, td, i;
             input = document.getElementById("txt_search");
             filter = input.value.toLowerCase();
-            table = document.getElementById("permissions-table");
+            table = document.getElementById("users-table");
             tr = table.getElementsByTagName("tr");
 
             // Loop through all table rows, and hide those who don't match the search query

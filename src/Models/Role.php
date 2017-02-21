@@ -11,6 +11,7 @@ namespace EONConsulting\RolesPermissions\Models;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Role extends Model {
 
@@ -23,7 +24,7 @@ class Role extends Model {
     }
 
     public function users() {
-        return $this->belongsToMany(User::class, 'users_roles');
+        return $this->belongsToMany(User::class, 'users_roles')->withPivot('department_id');
     }
 
     public function hasPermission(Permission $permission) {
