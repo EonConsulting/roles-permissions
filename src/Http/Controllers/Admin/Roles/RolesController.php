@@ -10,6 +10,7 @@ namespace EONConsulting\RolesPermissions\Http\Controllers\Admin\Roles;
 
 
 use App\Http\Controllers\Controller;
+use EONConsulting\RolesPermissions\Http\Requests\StoreRoleRequest;
 use EONConsulting\RolesPermissions\Http\Requests\UpdateRoleRequest;
 use EONConsulting\RolesPermissions\Models\Permission;
 use EONConsulting\RolesPermissions\Models\Role;
@@ -29,6 +30,20 @@ class RolesController extends Controller {
         return view('eon.roles::role', ['role' => $role, 'permissions' => $permissions, 'unheld' => $unheld, 'all_permissions' => $all_permissions]);
     }
 
+    public function create() {
+        return view('eon.roles::create-role');
+    }
+
+    public function store(StoreRoleRequest $request) {
+        $role = new Role;
+        $role->name = $request->name;
+        $role->slug = str_slug($request->name);
+
+        $role->save();
+
+        return response()->json(['success' => true]);
+    }
+
     public function update_role(UpdateRoleRequest $request, Role $role) {
         $role->name = $request->name;
         $role->slug = str_slug($request->name);
@@ -46,6 +61,16 @@ class RolesController extends Controller {
         }
 
         return response()->json(['success' => 'true']);
+    }
+
+    public function destroy(Role $role) {
+        if($role->users()->count() > 0) {
+            return response()->json(['success' => false, 'error_messages' => 'There are users linked to that role.']);
+        }
+
+        $role->delete();
+
+        return response()->json(['success' => true]);
     }
 
 }

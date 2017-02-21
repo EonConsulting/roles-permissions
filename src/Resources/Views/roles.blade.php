@@ -4,25 +4,28 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8">
+                <input type="hidden" id="tok" value="{{ csrf_token() }}" />
                 <div class="panel panel-default">
-                    <div class="panel-heading">Roles <div class="col-md-6 pull-right"><input type="text" id="txt_search" class="form-control" onkeyup="search()" placeholder="Search Roles.."></div><div class="clearfix"></div></div>
+                    <div class="panel-heading">Roles <a href="{{ route('eon.admin.roles.create') }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-plus"></span></a><div class="col-md-6 pull-right"><input type="text" id="txt_search" class="form-control" onkeyup="search()" placeholder="Search Roles.."></div><div class="clearfix"></div></div>
                     <table class="panel-body table table-hover table-striped" id="roles-table">
                         <thead>
                             <tr>
                                 <th class="col-md-1">#</th>
-                                <th class="col-md-7">Role</th>
+                                <th class="col-md-5">Role</th>
                                 <th class="col-md-2"># Permissions</th>
                                 <th class="col-md-2"># Used</th>
+                                <th class="col-md-2">Remove</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($roles as $index => $role)
-                                <tr class="clickable-row" data-href="{{ route('eon.admin.roles.single', $role->id) }}">
+                                <tr class="clickable-row" data-href="{{ route('eon.admin.roles.single', $role->id) }}" data-roleid="{{ $role->id }}">
                                     <a href="">
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $role->name }}</td>
                                         <td>{{ $role->permissions->count() }}</td>
                                         <td>{{ $role->users->count() }}</td>
+                                        <td><button type="button" class="remove-department btn btn-danger btn-xs" data-roleid="{{ $role->id }}">Remove</button></td>
                                     </a>
                                 </tr>
                             @endforeach
@@ -51,6 +54,40 @@
 @section('custom-scripts')
     <script>
         $(document).ready(function($) {
+            var _token = $('#tok').val();
+
+            $('.clickable-row').on('click', '.remove-department', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var role_id = $(this).data('roleid');
+
+                var url = '{{ route('eon.admin.roles.delete') }}';
+                url = url.replace('--role--', role_id);
+
+                $('.clickable-row[data-roleid="' + role_id + '"]').hide();
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: {_token: _token},
+                    success: function(res) {
+                        console.log('res', res);
+                        if(res.hasOwnProperty('success')) {
+                            if(res.success) {
+                                $('.clickable-row[data-roleid="' + role_id + '"]').remove();
+                            } else {
+                                $('.clickable-row[data-roleid="' + role_id + '"]').hide();
+                                alert(res.error_messages);
+                            }
+                        }
+                    },
+                    error: function(res) {
+                        console.log('res', res);
+                        $('.clickable-row[data-roleid="' + role_id + '"]').hide();
+                    }
+                });
+            });
+
             $(".clickable-row").click(function() {
                 window.document.location = $(this).data("href");
             });

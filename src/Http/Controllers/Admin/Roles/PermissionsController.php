@@ -10,6 +10,7 @@ namespace EONConsulting\RolesPermissions\Http\Controllers\Admin\Roles;
 
 
 use App\Http\Controllers\Controller;
+use EONConsulting\RolesPermissions\Http\Requests\StorePermissionRequest;
 use EONConsulting\RolesPermissions\Http\Requests\UpdatePermissionRequest;
 use EONConsulting\RolesPermissions\Models\Permission;
 
@@ -25,11 +26,35 @@ class PermissionsController extends Controller {
         return view('eon.roles::permission', ['permission' => $permission]);
     }
 
+    public function create() {
+        return view('eon.roles::create-permission');
+    }
+
+    public function store(StorePermissionRequest $request) {
+        $permission = new Permission;
+        $permission->name = $request->name;
+        $permission->slug = str_slug($request->name);
+
+        $permission->save();
+
+        return response()->json(['success' => true]);
+    }
+
     public function update(UpdatePermissionRequest $request, Permission $permission) {
         $permission->name = $request->name;
         $permission->slug = str_slug($request->name);
 
         $permission->save();
+
+        return response()->json(['success' => true]);
+    }
+
+    public function destroy(Permission $permission) {
+        if($permission->users()->count() > 0) {
+            return response()->json(['success' => false, 'error_messages' => 'There are users linked to that permission.']);
+        }
+
+        $permission->delete();
 
         return response()->json(['success' => true]);
     }

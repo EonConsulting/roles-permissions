@@ -10,8 +10,9 @@
                         <thead>
                         <tr>
                             <th class="col-md-1">#</th>
-                            <th class="col-md-9">User</th>
+                            <th class="col-md-7">User</th>
                             <th class="col-md-2"># Roles</th>
+                            <th class="col-md-2"># Permissions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -21,6 +22,7 @@
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->roles->count() }}</td>
+                                    <td>{{ $user->permissions->count() }}</td>
                                 </a>
                             </tr>
                         @endforeach
@@ -31,12 +33,8 @@
             <div class="col-md-4">
                 <div class="panel panel-default">
                     <div class="list-group">
-                        <a href="{{ route('eon.admin.roles') }}" class="list-group-item">
-                            Roles
-                        </a>
-                        <a href="{{ route('eon.admin.permissions') }}" class="list-group-item">
-                            Permissions
-                        </a>
+                        <a href="{{ route('eon.admin.roles') }}" class="list-group-item">Roles</a>
+                        <a href="{{ route('eon.admin.permissions') }}" class="list-group-item">Permissions</a>
                         <a href="{{ route('eon.admin.roles.users') }}" class="list-group-item active">Users' Roles</a>
                         <a href="{{ route('eon.admin.departments') }}" class="list-group-item">Departments</a>
                     </div>

@@ -15,14 +15,25 @@ Route::group(['middleware' => ['web', 'auth'], 'prefix' => '/admin', 'namespace'
         Route::post('/departments/{department}', ['as' => 'eon.admin.departments.single', 'uses' => 'DepartmentsController@update']);
         Route::post('/departments/{department}/delete', ['as' => 'eon.admin.departments.delete', 'uses' => 'DepartmentsController@destroy']);
         Route::post('/departments/--department--/delete', ['as' => 'eon.admin.departments.delete', 'uses' => 'DepartmentsController@destroy']);
+
         Route::get('/roles', ['as' => 'eon.admin.roles', 'uses' => 'RolesController@index']);
+        Route::get('/roles/create', ['as' => 'eon.admin.roles.create', 'uses' => 'RolesController@create']);
+        Route::post('/roles/create', ['as' => 'eon.admin.roles.create', 'uses' => 'RolesController@store']);
         Route::get('/roles/{role}', ['as' => 'eon.admin.roles.single', 'uses' => 'RolesController@show']);
         Route::post('/roles/{role}', ['as' => 'eon.admin.roles.single', 'uses' => 'RolesController@update_role']);
+        Route::post('/roles/{role}/delete', ['as' => 'eon.admin.roles.delete', 'uses' => 'RolesController@destroy']);
+        Route::post('/roles/--role--/delete', ['as' => 'eon.admin.roles.delete', 'uses' => 'RolesController@destroy']);
         Route::post('/roles/{role?}/{permission?}', ['as' => 'eon.admin.roles.permission', 'uses' => 'RolesController@update']);
         Route::post('/roles/--role--/--permission--', ['as' => 'eon.admin.roles.permission', 'uses' => 'RolesController@update']);
+
         Route::get('/permissions', ['as' => 'eon.admin.permissions', 'uses' => 'PermissionsController@index']);
+        Route::get('/permissions/create', ['as' => 'eon.admin.permissions.create', 'uses' => 'PermissionsController@create']);
+        Route::post('/permissions/create', ['as' => 'eon.admin.permissions.create', 'uses' => 'PermissionsController@store']);
         Route::get('/permissions/{permission}', ['as' => 'eon.admin.permissions.single', 'uses' => 'PermissionsController@show']);
         Route::post('/permissions/{permission}', ['as' => 'eon.admin.permissions.single', 'uses' => 'PermissionsController@update']);
+        Route::post('/permissions/{permission}/delete', ['as' => 'eon.admin.permissions.delete', 'uses' => 'PermissionsController@destroy']);
+        Route::post('/permissions/--permission--/delete', ['as' => 'eon.admin.permissions.delete', 'uses' => 'PermissionsController@destroy']);
+
         Route::get('/users', ['as' => 'eon.admin.roles.users', 'uses' => 'UsersController@index']);
         Route::get('/users/{user}', ['as' => 'eon.admin.roles.users.single', 'uses' => 'UsersController@show']);
         Route::post('/users/{user}/{role}/{department}', ['as' => 'eon.admin.roles.users.role-priovided', 'uses' => 'UsersController@update']);
