@@ -10,6 +10,7 @@ namespace EONConsulting\RolesPermissions;
 
 
 use EONConsulting\RolesPermissions\Models\Department;
+use EONConsulting\RolesPermissions\Models\Group;
 use EONConsulting\RolesPermissions\Models\Permission;
 use EONConsulting\RolesPermissions\Models\PermissionGroup;
 use EONConsulting\RolesPermissions\Models\Role;
@@ -17,24 +18,24 @@ use Illuminate\Support\Facades\DB;
 
 class RolesPermissions {
 
-    public function create_department($dept_str) {
-        $dept = Department::firstOrNew([
-            'name' => $dept_str,
-            'slug' => str_slug($dept_str)
+    public function create_group($group_str) {
+        $group = Group::firstOrNew([
+            'name' => $group_str,
+            'slug' => str_slug($group_str)
         ]);
-        $dept->save();
+        $group->save();
 
-        return $dept;
+        return $group;
     }
 
-    public function remove_department(Department $dept) {
-        if(!$dept)
+    public function remove_group(Group $group) {
+        if(!$group)
             return false;
 
-        if($dept->users_roles()->count() > 0 || $dept->users_permissions()->count() > 0)
+        if($group->users_roles()->count() > 0 || $group->users_permissions()->count() > 0)
             return false;
 
-        $dept->delete();
+        $group->delete();
 
         return true;
     }

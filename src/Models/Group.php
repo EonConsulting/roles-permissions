@@ -12,9 +12,9 @@ namespace EONConsulting\RolesPermissions\Models;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
-class Department extends Model {
+class Group extends Model {
 
-    protected $table = 'departments';
+    protected $table = 'groups';
     protected $primaryKey = 'id';
     protected $fillable = ['name', 'slug'];
 

@@ -14,9 +14,9 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Department</div>
+                    <div class="panel-heading">Group</div>
                     <div class="panel-body">
-                        <input type="text" id="txt_department" class="form-control" value="{{ $department->name }}" />
+                        <input type="text" id="txt_group" class="form-control" value="{{ $group->name }}" />
                         <label class="hidden text" id="response"></label>
                     </div>
                 </div>
@@ -57,7 +57,7 @@
                             Permissions
                         </a>
                         <a href="{{ route('eon.admin.roles.users') }}" class="list-group-item">Users' Roles</a>
-                        <a href="{{ route('eon.admin.departments') }}" class="list-group-item active">Departments</a>
+                        <a href="{{ route('eon.admin.groups') }}" class="list-group-item active">Groups</a>
                     </div>
                 </div>
             </div>
@@ -70,16 +70,16 @@
     <script>
         $(document).ready(function($) {
             var _token = $('#tok').val();
-            var department_id = '{{ $department->id }}';
+            var group_id = '{{ $group->id }}';
 
-            $(document).on('change', '#txt_department', function() {
+            $(document).on('change', '#txt_group', function() {
                 var val = $(this).val();
                 console.log('val', val);
 
                 $('#response').addClass('text-default').removeClass('hidden').removeClass('text-danger').removeClass('text-success').html('<br />Saving...');
 
                 $.ajax({
-                    url: '/admin/departments/' + department_id,
+                    url: '/admin/groups/' + group_id,
                     type: 'POST',
                     data: {_token: _token, name: val},
                     success: function(res) {
@@ -111,7 +111,7 @@
                 var url = '{{ route('eon.admin.roles.users.role') }}';
                 url = url.replace('--user--', user_id);
                 url = url.replace('--role--', role_id);
-                url = url.replace('--department--', department_id);
+                url = url.replace('--group--', group_id);
                 console.log('url', url);
 
                 $('.clickable-row[data-roleid="' + role_id + '"][data-userid="' + user_id + '"]').hide();

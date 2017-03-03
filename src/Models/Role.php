@@ -24,7 +24,7 @@ class Role extends Model {
     }
 
     public function users() {
-        return $this->belongsToMany(User::class, 'users_roles')->withPivot('department_id');
+        return $this->belongsToMany(User::class, 'users_roles')->withPivot('group_id');
     }
 
     public function hasPermission(Permission $permission) {

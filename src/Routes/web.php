@@ -8,13 +8,13 @@
 
 Route::group(['middleware' => ['web', 'auth'], 'prefix' => '/admin', 'namespace' => 'EONConsulting\\RolesPermissions\\Http\\Controllers\\'], function() {
     Route::group(['namespace' => 'Admin\\Roles\\'], function() {
-        Route::get('/departments', ['as' => 'eon.admin.departments', 'uses' => 'DepartmentsController@index']);
-        Route::get('/departments/create', ['as' => 'eon.admin.departments.create', 'uses' => 'DepartmentsController@create']);
-        Route::post('/departments/create', ['as' => 'eon.admin.departments.create', 'uses' => 'DepartmentsController@store']);
-        Route::get('/departments/{department}', ['as' => 'eon.admin.departments.single', 'uses' => 'DepartmentsController@show']);
-        Route::post('/departments/{department}', ['as' => 'eon.admin.departments.single', 'uses' => 'DepartmentsController@update']);
-        Route::post('/departments/{department}/delete', ['as' => 'eon.admin.departments.delete', 'uses' => 'DepartmentsController@destroy']);
-        Route::post('/departments/--department--/delete', ['as' => 'eon.admin.departments.delete', 'uses' => 'DepartmentsController@destroy']);
+        Route::get('/groups', ['as' => 'eon.admin.groups', 'uses' => 'GroupsController@index']);
+        Route::get('/groups/create', ['as' => 'eon.admin.groups.create', 'uses' => 'GroupsController@create']);
+        Route::post('/groups/create', ['as' => 'eon.admin.groups.create', 'uses' => 'GroupsController@store']);
+        Route::get('/groups/{group}', ['as' => 'eon.admin.groups.single', 'uses' => 'GroupsController@show']);
+        Route::post('/groups/{group}', ['as' => 'eon.admin.groups.single', 'uses' => 'GroupsController@update']);
+        Route::post('/groups/{group}/delete', ['as' => 'eon.admin.groups.delete', 'uses' => 'GroupsController@destroy']);
+        Route::post('/groups/--group--/delete', ['as' => 'eon.admin.groups.delete', 'uses' => 'GroupsController@destroy']);
 
         Route::get('/roles', ['as' => 'eon.admin.roles', 'uses' => 'RolesController@index']);
         Route::get('/roles/create', ['as' => 'eon.admin.roles.create', 'uses' => 'RolesController@create']);

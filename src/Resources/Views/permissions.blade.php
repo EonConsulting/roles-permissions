@@ -1,12 +1,16 @@
 @extends('layouts.app')
 
+@section('custom-styles')
+    <link rel="stylesheet" type="text/css" href="/vendor/roles/css/font-awesome.css" />
+@endsection
+
 @section('content')
     <div class="container">
         <div class="row">
             <div class="col-md-8">
                 <div class="panel panel-default">
                     <input type="hidden" id="tok" value="{{ csrf_token() }}" />
-                    <div class="panel-heading">Permissions <a href="{{ route('eon.admin.permissions.create') }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-plus"></span></a><div class="col-md-6 pull-right"><input type="text" id="txt_search" class="form-control" onkeyup="search()" placeholder="Search Permissions.."></div><div class="clearfix"></div></div>
+                    <div class="panel-heading">Permissions <a href="{{ route('eon.admin.permissions.create') }}" class="btn btn-primary btn-xs"><span class="fa fa-plus"></span></a><div class="col-md-6 pull-right"><input type="text" id="txt_search" class="form-control" onkeyup="search()" placeholder="Search Permissions.."></div><div class="clearfix"></div></div>
                     <table class="panel-body table table-hover table-striped" id="permissions-table">
                         <thead>
                         <tr>
@@ -43,7 +47,7 @@
                             Permissions
                         </a>
                         <a href="{{ route('eon.admin.roles.users') }}" class="list-group-item">Users' Roles</a>
-                        <a href="{{ route('eon.admin.departments') }}" class="list-group-item">Departments</a>
+                        <a href="{{ route('eon.admin.groups') }}" class="list-group-item">Groups</a>
                     </div>
                 </div>
             </div>

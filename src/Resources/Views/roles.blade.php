@@ -1,12 +1,16 @@
 @extends('layouts.app')
 
+@section('custom-styles')
+    <link rel="stylesheet" type="text/css" href="/vendor/roles/css/font-awesome.css" />
+@endsection
+
 @section('content')
     <div class="container">
         <div class="row">
             <div class="col-md-8">
                 <input type="hidden" id="tok" value="{{ csrf_token() }}" />
                 <div class="panel panel-default">
-                    <div class="panel-heading">Roles <a href="{{ route('eon.admin.roles.create') }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-plus"></span></a><div class="col-md-6 pull-right"><input type="text" id="txt_search" class="form-control" onkeyup="search()" placeholder="Search Roles.."></div><div class="clearfix"></div></div>
+                    <div class="panel-heading">Roles <a href="{{ route('eon.admin.roles.create') }}" class="btn btn-primary btn-xs"><span class="fa fa-plus"></span></a><div class="col-md-6 pull-right"><input type="text" id="txt_search" class="form-control" onkeyup="search()" placeholder="Search Roles.."></div><div class="clearfix"></div></div>
                     <table class="panel-body table table-hover table-striped" id="roles-table">
                         <thead>
                             <tr>
@@ -25,7 +29,7 @@
                                         <td>{{ $role->name }}</td>
                                         <td>{{ $role->permissions->count() }}</td>
                                         <td>{{ $role->users->count() }}</td>
-                                        <td><button type="button" class="remove-department btn btn-danger btn-xs" data-roleid="{{ $role->id }}">Remove</button></td>
+                                        <td><button type="button" class="remove-group btn btn-danger btn-xs" data-roleid="{{ $role->id }}">Remove</button></td>
                                     </a>
                                 </tr>
                             @endforeach
@@ -43,7 +47,7 @@
                             Permissions
                         </a>
                         <a href="{{ route('eon.admin.roles.users') }}" class="list-group-item">Users' Roles</a>
-                        <a href="{{ route('eon.admin.departments') }}" class="list-group-item">Departments</a>
+                        <a href="{{ route('eon.admin.groups') }}" class="list-group-item">Groups</a>
                     </div>
                 </div>
             </div>
@@ -56,7 +60,7 @@
         $(document).ready(function($) {
             var _token = $('#tok').val();
 
-            $('.clickable-row').on('click', '.remove-department', function(e) {
+            $('.clickable-row').on('click', '.remove-group', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
                 var role_id = $(this).data('roleid');

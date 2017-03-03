@@ -2,6 +2,7 @@
 
 @section('custom-styles')
     <link rel="stylesheet" href="/vendor/roles/css/select2.css">
+    <link rel="stylesheet" type="text/css" href="/vendor/roles/css/font-awesome.css" />
     <style>
         .select2-container {
             width: 100% !important;
@@ -21,7 +22,7 @@
                     </div>
                 </div>
                 <div class="panel panel-default">
-                    <div class="panel-heading">Permissions <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modal-add-permission"><span class="glyphicon glyphicon-plus"></span></button> <div class="col-md-6 pull-right"><input type="text" id="txt_search" class="form-control" onkeyup="search()" placeholder="Search Permissions.."></div><div class="clearfix"></div></div>
+                    <div class="panel-heading">Permissions <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modal-add-permission"><span class="fa fa-plus"></span></button> <div class="col-md-6 pull-right"><input type="text" id="txt_search" class="form-control" onkeyup="search()" placeholder="Search Permissions.."></div><div class="clearfix"></div></div>
                     <table class="panel-body table table-hover table-striped" id="permissions-table">
                         <thead>
                         <tr>
@@ -53,7 +54,7 @@
                             Permissions
                         </a>
                         <a href="{{ route('eon.admin.roles.users') }}" class="list-group-item">Users' Roles</a>
-                        <a href="{{ route('eon.admin.departments') }}" class="list-group-item">Departments</a>
+                        <a href="{{ route('eon.admin.groups') }}" class="list-group-item">Groups</a>
                     </div>
                 </div>
             </div>

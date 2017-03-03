@@ -1,29 +1,33 @@
 @extends('layouts.app')
 
+@section('custom-styles')
+    <link rel="stylesheet" type="text/css" href="/vendor/roles/css/font-awesome.css" />
+@endsection
+
 @section('content')
     <div class="container">
         <div class="row">
             <div class="col-md-8">
                 <input type="hidden" id="tok" value="{{ csrf_token() }}" />
                 <div class="panel panel-default">
-                    <div class="panel-heading">Departments <a href="{{ route('eon.admin.departments.create') }}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-plus"></span></a><div class="col-md-6 pull-right"><input type="text" id="txt_search" class="form-control" onkeyup="search()" placeholder="Search Departments.."></div><div class="clearfix"></div></div>
-                    <table class="panel-body table table-hover table-striped" id="department-table">
+                    <div class="panel-heading">Groups <a href="{{ route('eon.admin.groups.create') }}" class="btn btn-primary btn-xs"><span class="fa fa-plus"></span></a><div class="col-md-6 pull-right"><input type="text" id="txt_search" class="form-control" onkeyup="search()" placeholder="Search Groups.."></div><div class="clearfix"></div></div>
+                    <table class="panel-body table table-hover table-striped" id="group-table">
                         <thead>
                         <tr>
                             <th class="col-md-1">#</th>
-                            <th class="col-md-7">Department</th>
+                            <th class="col-md-7">Group</th>
                             <th class="col-md-2"># Roles</th>
                             <th class="col-md-2">Remove</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($departments as $index => $department)
-                            <tr class="clickable-row" data-href="{{ route('eon.admin.departments.single', $department->id) }}" data-departmentid="{{ $department->id }}">
+                        @foreach($groups as $index => $group)
+                            <tr class="clickable-row" data-href="{{ route('eon.admin.groups.single', $group->id) }}" data-groupid="{{ $group->id }}">
                                 <a href="">
                                     <td>{{ $index + 1 }}</td>
-                                    <td>{{ $department->name }}</td>
-                                    <td>{{ $department->users_roles->count() }}</td>
-                                    <td><button type="button" class="remove-department btn btn-danger btn-xs" data-departmentid="{{ $department->id }}">Remove</button></td>
+                                    <td>{{ $group->name }}</td>
+                                    <td>{{ $group->users_roles->count() }}</td>
+                                    <td><button type="button" class="remove-group btn btn-danger btn-xs" data-groupid="{{ $group->id }}">Remove</button></td>
                                 </a>
                             </tr>
                         @endforeach
@@ -41,7 +45,7 @@
                             Permissions
                         </a>
                         <a href="{{ route('eon.admin.roles.users') }}" class="list-group-item">Users' Roles</a>
-                        <a href="{{ route('eon.admin.departments') }}" class="list-group-item active">Departments</a>
+                        <a href="{{ route('eon.admin.groups') }}" class="list-group-item active">Groups</a>
                     </div>
                 </div>
             </div>
@@ -54,15 +58,15 @@
         $(document).ready(function($) {
             var _token = $('#tok').val();
 
-            $('.clickable-row').on('click', '.remove-department', function(e) {
+            $('.clickable-row').on('click', '.remove-group', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                var department_id = $(this).data('departmentid');
+                var group_id = $(this).data('groupid');
 
-                var url = '{{ route('eon.admin.departments.delete') }}';
-                url = url.replace('--department--', department_id);
+                var url = '{{ route('eon.admin.groups.delete') }}';
+                url = url.replace('--group--', group_id);
 
-                $('.clickable-row[data-departmentid="' + department_id + '"]').hide();
+                $('.clickable-row[data-groupid="' + group_id + '"]').hide();
 
                 $.ajax({
                     url: url,
@@ -72,16 +76,16 @@
                         console.log('res', res);
                         if(res.hasOwnProperty('success')) {
                             if(res.success) {
-                                $('.clickable-row[data-departmentid="' + department_id + '"]').remove();
+                                $('.clickable-row[data-groupid="' + group_id + '"]').remove();
                             } else {
-                                $('.clickable-row[data-departmentid="' + department_id + '"]').show();
+                                $('.clickable-row[data-groupid="' + group_id + '"]').show();
                                 alert(res.error_messages);
                             }
                         }
                     },
                     error: function(res) {
                         console.log('res', res);
-                        $('.clickable-row[data-departmentid="' + department_id + '"]').show();
+                        $('.clickable-row[data-groupid="' + group_id + '"]').show();
                     }
                 });
             });

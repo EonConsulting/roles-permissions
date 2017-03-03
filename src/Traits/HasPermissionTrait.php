@@ -8,7 +8,7 @@
 
 namespace EONConsulting\RolesPermissions\Traits;
 
-use EONConsulting\RolesPermissions\Models\Department;
+use EONConsulting\RolesPermissions\Models\Group;
 use EONConsulting\RolesPermissions\Models\Role;
 use EONConsulting\RolesPermissions\Models\Permission;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 
 trait HasPermissionTrait {
 
-    public function givePermissionTo($department_id, ...$permissions) {
+    public function givePermissionTo($group_id, ...$permissions) {
         $permissions = $this->getAllPermissions(array_flatten($permissions));
 
         if ($permissions === null) {
@@ -24,10 +24,10 @@ trait HasPermissionTrait {
         }
 
         foreach($permissions as $permission) {
-            if($department_id instanceof Department) {
-                $department_id = $department_id->id;
+            if($group_id instanceof Group) {
+                $group_id = $group_id->id;
             }
-            DB::table('users_permissions')->insert(['permission_id' => $permission->id, 'department_id' => $department_id, 'user_id' => $this->id]);
+            DB::table('users_permissions')->insert(['permission_id' => $permission->id, 'group_id' => $group_id, 'user_id' => $this->id]);
         }
 
         $this->permissions()->saveMany($permissions);
@@ -35,7 +35,7 @@ trait HasPermissionTrait {
         return $this;
     }
 
-    public function giveRole($department_id, ...$roles) {
+    public function giveRole($group_id, ...$roles) {
         $roles = $this->getAllRoles(array_flatten($roles));
 
         if ($roles === null) {
@@ -43,10 +43,10 @@ trait HasPermissionTrait {
         }
 
         foreach($roles as $role) {
-            if($department_id instanceof Department) {
-                $department_id = $department_id->id;
+            if($group_id instanceof Group) {
+                $group_id = $group_id->id;
             }
-            DB::table('users_roles')->insert(['role_id' => $role->id, 'department_id' => $department_id, 'user_id' => $this->id]);
+            DB::table('users_roles')->insert(['role_id' => $role->id, 'group_id' => $group_id, 'user_id' => $this->id]);
         }
 
 //        $this->roles()->saveMany($roles);
@@ -54,23 +54,23 @@ trait HasPermissionTrait {
         return $this;
     }
 
-    public function withdrawPermissionTo($department_id, ...$permissions) {
+    public function withdrawPermissionTo($group_id, ...$permissions) {
         $permissions = $this->getAllPermissions(array_flatten($permissions));
 
-        $this->permissions()->where('department_id', $department_id)->detach($permissions);
+        $this->permissions()->where('group_id', $group_id)->detach($permissions);
 
         return $this;
     }
 
-    public function updatePermissions($department_id, ...$permissions) {
-        $this->permissions()->where('department_id', $department_id)->detach();
+    public function updatePermissions($group_id, ...$permissions) {
+        $this->permissions()->where('group_id', $group_id)->detach();
 
-        return $this->givePermissionTo($department_id, $permissions);
+        return $this->givePermissionTo($group_id, $permissions);
     }
 
-    public function hasRole($department_id, ...$roles) {
+    public function hasRole($group_id, ...$roles) {
         foreach ($roles as $role) {
-            if ($this->roles->with('department_id', $department_id)->contains('name', $role)) {
+            if ($this->roles->with('group_id', $group_id)->contains('name', $role)) {
                 return true;
             }
         }
@@ -78,13 +78,13 @@ trait HasPermissionTrait {
         return false;
     }
 
-    public function hasPermissionTo($department_id, $permission) {
-        return $this->hasPermissionThroughRole($permission, $department_id) || $this->hasPermission($department_id, $permission);
+    public function hasPermissionTo($group_id, $permission) {
+        return $this->hasPermissionThroughRole($permission, $group_id) || $this->hasPermission($group_id, $permission);
     }
 
-    protected function hasPermissionThroughRole($department_id, $permission) {
+    protected function hasPermissionThroughRole($group_id, $permission) {
         foreach ($permission->roles as $role) {
-            if ($this->roles->with('department_id', $department_id)->contains($role)) {
+            if ($this->roles->with('group_id', $group_id)->contains($role)) {
                 return true;
             }
         }
@@ -92,8 +92,8 @@ trait HasPermissionTrait {
         return false;
     }
 
-    protected function hasPermission($department_id, $permission) {
-        return (bool) $this->permissions->where('name', $permission->name)->where('department_id', $department_id)->count();
+    protected function hasPermission($group_id, $permission) {
+        return (bool) $this->permissions->where('name', $permission->name)->where('group_id', $group_id)->count();
     }
 
     protected function getAllPermissions(array $permissions) {
@@ -105,11 +105,11 @@ trait HasPermissionTrait {
     }
 
     public function roles() {
-        return $this->belongsToMany(Role::class, 'users_roles')->withPivot('department_id');
+        return $this->belongsToMany(Role::class, 'users_roles')->withPivot('group_id');
     }
 
     public function permissions() {
-        return $this->belongsToMany(Permission::class, 'users_permissions')->withPivot('department_id');
+        return $this->belongsToMany(Permission::class, 'users_permissions')->withPivot('group_id');
     }
 
 }

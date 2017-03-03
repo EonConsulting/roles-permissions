@@ -14,9 +14,9 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Department</div>
+                    <div class="panel-heading">Group</div>
                     <div class="panel-body">
-                        <input type="text" id="txt_department" class="form-control" placeholder="Department Name" />
+                        <input type="text" id="txt_group" class="form-control" placeholder="Group Name" />
                         <label class="hidden text" id="response"></label>
                     </div>
                 </div>
@@ -32,7 +32,7 @@
                             Permissions
                         </a>
                         <a href="{{ route('eon.admin.roles.users') }}" class="list-group-item">Users' Roles</a>
-                        <a href="{{ route('eon.admin.departments') }}" class="list-group-item active">Departments</a>
+                        <a href="{{ route('eon.admin.groups') }}" class="list-group-item active">Groups</a>
                     </div>
                 </div>
             </div>
@@ -46,14 +46,14 @@
         $(document).ready(function($) {
             var _token = $('#tok').val();
 
-            $(document).on('change', '#txt_department', function() {
+            $(document).on('change', '#txt_group', function() {
                 var val = $(this).val();
                 console.log('val', val);
 
                 $('#response').addClass('text-default').removeClass('hidden').removeClass('text-danger').removeClass('text-success').html('<br />Saving...');
 
                 $.ajax({
-                    url: '/admin/departments/create',
+                    url: '/admin/groups/create',
                     type: 'POST',
                     data: {_token: _token, name: val},
                     success: function(res) {
