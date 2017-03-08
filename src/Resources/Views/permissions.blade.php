@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('custom-styles')
     <link rel="stylesheet" type="text/css" href="/vendor/roles/css/font-awesome.css" />

@@ -68,10 +68,16 @@ trait HasPermissionTrait {
         return $this->givePermissionTo($group_id, $permissions);
     }
 
-    public function hasRole($group_id, ...$roles) {
+    public function hasRole($group_id = -1, ...$roles) {
         foreach ($roles as $role) {
-            if ($this->roles->with('group_id', $group_id)->contains('name', $role)) {
-                return true;
+            if($group_id != -1) {
+                if ($this->roles->with('group_id', $group_id)->contains('name', $role)) {
+                    return true;
+                }
+            } else {
+                if ($this->roles->contains('name', $role)) {
+                    return true;
+                }
             }
         }
 

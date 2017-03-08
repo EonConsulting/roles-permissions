@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('custom-styles')
     <link rel="stylesheet" href="/vendor/roles/css/select2.css">

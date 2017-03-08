@@ -118,4 +118,8 @@ class RolesPermissions {
         return true;
     }
 
+    public function role_exists($role) {
+        return Role::where('name', $role)->first();
+    }
+
 }
