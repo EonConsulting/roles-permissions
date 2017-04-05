@@ -57,7 +57,7 @@ class RolesPermissionsServiceProvider extends ServiceProvider {
     }
 
     public function views() {
-        $this->loadViewsFrom(__DIR__.'/resources/views', 'eon.roles');
+        $this->loadViewsFrom(__DIR__.'/Resources/Views', 'eon.roles');
     }
 
     public function routes() {
