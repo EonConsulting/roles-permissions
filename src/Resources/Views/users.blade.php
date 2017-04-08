@@ -1,5 +1,7 @@
 @extends('layouts.admin')
-
+@section('site-title')
+    Users
+@endsection
 @section('content')
     <div class="container">
         <div class="row">

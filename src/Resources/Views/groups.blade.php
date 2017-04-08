@@ -1,11 +1,15 @@
 @extends('layouts.admin')
 
+@section('site-title')
+    Groups
+@endsection
+
 @section('custom-styles')
     <link rel="stylesheet" type="text/css" href="/vendor/roles/css/font-awesome.css" />
 @endsection
 
 @section('content')
-    <div class="container">
+
         <div class="row">
             <div class="col-md-8">
                 <input type="hidden" id="tok" value="{{ csrf_token() }}" />

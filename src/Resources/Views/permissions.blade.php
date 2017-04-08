@@ -1,5 +1,7 @@
 @extends('layouts.admin')
-
+@section('site-title')
+    Permissions
+@endsection
 @section('custom-styles')
     <link rel="stylesheet" type="text/css" href="/vendor/roles/css/font-awesome.css" />
 @endsection
