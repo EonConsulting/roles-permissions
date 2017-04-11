@@ -6,7 +6,7 @@
  * Time: 5:31 PM
  */
 
-Route::group(['middleware' => ['web', 'auth'], 'prefix' => '/admin', 'namespace' => 'EONConsulting\\RolesPermissions\\Http\\Controllers\\'], function() {
+Route::group(['middleware' => ['web', 'auth', 'instructor'], 'prefix' => '/admin', 'namespace' => 'EONConsulting\\RolesPermissions\\Http\\Controllers\\'], function() {
     Route::group(['namespace' => 'Admin\\Roles\\'], function() {
         Route::get('/groups', ['as' => 'eon.admin.groups', 'uses' => 'GroupsController@index']);
         Route::get('/groups/create', ['as' => 'eon.admin.groups.create', 'uses' => 'GroupsController@create']);
