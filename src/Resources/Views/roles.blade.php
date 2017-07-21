@@ -1,15 +1,13 @@
-@extends('layouts.admin')
-@section('site-title')
-    Roles
-@endsection
+@extends('layouts.app')
+
 @section('custom-styles')
     <link rel="stylesheet" type="text/css" href="/vendor/roles/css/font-awesome.css" />
 @endsection
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <input type="hidden" id="tok" value="{{ csrf_token() }}" />
                 <div class="panel panel-default">
                     <div class="panel-heading">Roles <a href="{{ route('eon.admin.roles.create') }}" class="btn btn-primary btn-xs"><span class="fa fa-plus"></span></a><div class="col-md-6 pull-right"><input type="text" id="txt_search" class="form-control" onkeyup="search()" placeholder="Search Roles.."></div><div class="clearfix"></div></div>
@@ -37,20 +35,6 @@
                             @endforeach
                         </tbody>
                     </table>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="panel panel-default">
-                    <div class="list-group">
-                        <a href="{{ route('eon.admin.roles') }}" class="list-group-item active">
-                            Roles
-                        </a>
-                        <a href="{{ route('eon.admin.permissions') }}" class="list-group-item">
-                            Permissions
-                        </a>
-                        <a href="{{ route('eon.admin.roles.users') }}" class="list-group-item">Users' Roles</a>
-                        <a href="{{ route('eon.admin.groups') }}" class="list-group-item">Groups</a>
-                    </div>
                 </div>
             </div>
         </div>

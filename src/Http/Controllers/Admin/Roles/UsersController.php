@@ -22,7 +22,14 @@ class UsersController extends Controller {
     public function index() {
         $users = User::get();
 
-        return view('eon.roles::users', ['users' => $users]);
+        $breadcrumbs = [
+            'title' => 'Roles and Permissions',
+            'child' => [
+                'title' => 'Users',
+            ]
+        ];
+
+        return view('eon.roles::users', ['users' => $users, 'breadcrumbs' => $breadcrumbs]);
     }
 
     public function show(User $user) {
@@ -31,7 +38,18 @@ class UsersController extends Controller {
         $unheld = Role::whereNotIn('id', $user->roles()->pluck('id')->toArray())->get()->pluck('name', 'id');
         $all_roles = Role::get()->pluck('name', 'id');
 
-        return view('eon.roles::user', ['user' => $user, 'roles' => $roles, 'held' => $roles->keyBy('id'), 'all_roles' => $all_roles, 'unheld' => $unheld, 'groups' => $groups]);
+        $breadcrumbs = [
+            'title' => 'Roles and Permissions',
+            'child' => [
+                'title' => 'Users',
+                'href' => route("eon.admin.roles.users"),
+                'child' => [
+                    'title' => $user->name
+                ]
+            ]
+        ];
+
+        return view('eon.roles::user', ['user' => $user, 'roles' => $roles, 'held' => $roles->keyBy('id'), 'all_roles' => $all_roles, 'unheld' => $unheld, 'groups' => $groups, 'breadcrumbs' => $breadcrumbs]);
     }
 
     public function update(User $user, Role $role, Group $group) {

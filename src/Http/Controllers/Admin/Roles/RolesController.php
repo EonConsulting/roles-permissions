@@ -20,18 +20,49 @@ class RolesController extends Controller {
     public function index() {
         $roles = Role::with('permissions')->with('users')->get();
 
-        return view('eon.roles::roles', ['roles' => $roles]);
+        $breadcrumbs = [
+            'title' => 'Roles and Permissions',
+            'child' => [
+                'title' => 'Roles',
+            ]
+        ];
+
+        return view('eon.roles::roles', ['roles' => $roles, 'breadcrumbs' => $breadcrumbs]);
     }
 
     public function show(Role $role) {
         $permissions = $role->permissions;
         $unheld = Permission::whereNotIn('id', $role->permissions()->pluck('id')->toArray())->get()->pluck('name', 'id');
         $all_permissions = Permission::get()->pluck('name', 'id');
-        return view('eon.roles::role', ['role' => $role, 'permissions' => $permissions, 'unheld' => $unheld, 'all_permissions' => $all_permissions]);
+
+        $breadcrumbs = [
+            'title' => 'Roles and Permissions',
+            'child' => [
+                'title' => 'Roles',
+                'href' => route("eon.admin.roles"),
+                'child' => [
+                    'title' => $role->name
+                ]
+            ]
+        ];
+
+        return view('eon.roles::role', ['role' => $role, 'permissions' => $permissions, 'unheld' => $unheld, 'all_permissions' => $all_permissions, 'breadcrumbs' => $breadcrumbs]);
     }
 
     public function create() {
-        return view('eon.roles::create-role');
+
+        $breadcrumbs = [
+            'title' => 'Roles and Permissions',
+            'child' => [
+                'title' => 'Roles',
+                'href' => route("eon.admin.roles"),
+                'child' => [
+                    'title' => "Create a Role"
+                ]
+            ]
+        ];
+
+        return view('eon.roles::create-role', ['breadcrumbs' => $breadcrumbs]);
     }
 
     public function store(StoreRoleRequest $request) {

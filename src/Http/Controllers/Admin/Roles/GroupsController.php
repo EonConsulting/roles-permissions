@@ -20,17 +20,54 @@ class GroupsController extends Controller {
     public function index() {
         $groups = Group::get();
 
-        return view('eon.roles::groups', ['groups' => $groups]);
+        $breadcrumbs = [
+            'title' => 'Roles and Permissions',
+            'child' => [
+                'title' => 'Groups'
+            ]
+        ];
+
+        return view('eon.roles::groups', ['groups' => $groups], ['breadcrumbs' => $breadcrumbs]);
     }
 
     public function show(Group $group) {
         $users = $group->users_roles;
         $all_roles = Role::get()->pluck('name', 'id')->toArray();
-        return view('eon.roles::group', ['users' => $users, 'group' => $group, 'roles' => $all_roles]);
+
+        $user_data = [
+            'users' => $users,
+            'group' => $group,
+            'roles' => $all_roles,
+        ];
+
+        $breadcrumbs = [
+            'title' => 'Roles and Permissions',
+            'child' => [
+                'title' => 'Groups',
+                'href' => route("eon.admin.groups"),
+                'child' => [
+                    'title' => $group->name
+                ]
+            ]
+        ];
+
+        return view('eon.roles::group', $user_data, ['breadcrumbs' => $breadcrumbs]);
     }
 
     public function create() {
-        return view('eon.roles::create-group');
+
+        $breadcrumbs = [
+            'title' => 'Roles and Permissions',
+            'child' => [
+                'title' => 'Groups',
+                'href' => route("eon.admin.groups"),
+                'child' => [
+                    'title' => 'Create a Group'
+                ]
+            ]
+        ];
+
+        return view('eon.roles::create-group', ['breadcrumbs' => $breadcrumbs]);
     }
 
     public function store(StoreDepartmentRequest $request) {

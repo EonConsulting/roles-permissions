@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.app')
 
 @section('custom-styles')
     <link rel="stylesheet" href="/vendor/roles/css/select2.css">
@@ -12,9 +12,9 @@
 @endsection
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">User</div>
                     <div class="panel-body">
@@ -44,20 +44,6 @@
                     </table>
                 </div>
                 <input type="hidden" id="tok" value="{{ csrf_token() }}" />
-            </div>
-            <div class="col-md-4">
-                <div class="panel panel-default">
-                    <div class="list-group">
-                        <a href="{{ route('eon.admin.roles') }}" class="list-group-item">
-                            Roles
-                        </a>
-                        <a href="{{ route('eon.admin.permissions') }}" class="list-group-item">
-                            Permissions
-                        </a>
-                        <a href="{{ route('eon.admin.roles.users') }}" class="list-group-item active">Users' Roles</a>
-                        <a href="{{ route('eon.admin.groups') }}" class="list-group-item">Groups</a>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
