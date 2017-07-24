@@ -22,7 +22,12 @@
                 </div>
 
                 <div class="panel panel-default">
-                    <div class="panel-heading">User Roles <div class="col-md-6 pull-right"><input type="text" id="txt_search" class="form-control" onkeyup="search()" placeholder="Search Users.."></div><div class="clearfix"></div></div>
+                    <div class="panel-heading basic-clearfix">
+                        User Roles
+                        <div class="col-md-6 pull-right">
+                            <input type="text" id="txt_search" class="form-control" onkeyup="search()" placeholder="Search Users..">
+                        </div>
+                    </div>
                     <table class="panel-body table table-hover table-striped" id="users-table">
                         <thead>
                         <tr>

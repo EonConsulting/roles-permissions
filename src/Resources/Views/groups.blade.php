@@ -7,15 +7,22 @@
             <div class="col-md-12">
                 <input type="hidden" id="tok" value="{{ csrf_token() }}" />
                 <div class="panel panel-default">
-                    <div class="panel-heading">Groups <a href="{{ route('eon.admin.groups.create') }}" class="btn btn-primary btn-xs"><span class="fa fa-plus"></span></a><div class="col-md-6 pull-right"><input type="text" id="txt_search" class="form-control" onkeyup="search()" placeholder="Search Groups.."></div><div class="clearfix"></div></div>
-                    <table class="panel-body table table-hover table-striped" id="group-table">
+                    <div class="panel-heading basic-clearfix">
+                        Groups
+                        <a href="{{ route('eon.admin.groups.create') }}" class="btn btn-primary btn-xs">
+                            <span class="fa fa-plus"></span>
+                        </a>
+                        <div class="col-md-6 pull-right">
+                        <input type="text" id="txt_search" class="form-control" onkeyup="search()" placeholder="Search Groups.."></div>
+                    </div>
+                    <table class="table table-hover table-striped" id="group-table">
                         <thead>
-                        <tr>
-                            <th class="col-md-1">#</th>
-                            <th class="col-md-7">Group</th>
-                            <th class="col-md-2"># Roles</th>
-                            <th class="col-md-2">Remove</th>
-                        </tr>
+                            <tr>
+                                <th class="col-md-1">#</th>
+                                <th class="col-md-7">Group</th>
+                                <th class="col-md-2"># Roles</th>
+                                <th class="col-md-2">Remove</th>
+                            </tr>
                         </thead>
                         <tbody>
                         @foreach($groups as $index => $group)

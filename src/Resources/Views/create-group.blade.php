@@ -14,7 +14,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Group</div>
+                    <div class="panel-heading basic-clearfix" >Group</div>
                     <div class="panel-body">
                         <input type="text" id="txt_group" class="form-control" placeholder="Group Name" />
                         <label class="hidden text" id="response"></label>
