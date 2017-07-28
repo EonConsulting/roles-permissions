@@ -19,15 +19,46 @@ class PermissionsController extends Controller {
     public function index() {
         $permissions = Permission::with('roles')->with('users')->get();
 
-        return view('eon.roles::permissions', ['permissions' => $permissions]);
+        $breadcrumbs = [
+            'title' => 'Roles and Permissions',
+            'child' => [
+                'title' => 'Permissions'
+            ]
+        ];
+
+        return view('eon.roles::permissions', ['permissions' => $permissions], ['breadcrumbs' => $breadcrumbs]);
     }
 
     public function show(Permission $permission) {
-        return view('eon.roles::permission', ['permission' => $permission]);
+
+        $breadcrumbs = [
+            'title' => 'Roles and Permissions',
+            'child' => [
+                'title' => 'Permissions',
+                'href' => route("eon.admin.permissions"),
+                'child' => [
+                    'title' => $permission->name
+                ]
+            ]
+        ];
+
+        return view('eon.roles::permission', ['permission' => $permission], ['breadcrumbs' => $breadcrumbs]);
     }
 
     public function create() {
-        return view('eon.roles::create-permission');
+
+        $breadcrumbs = [
+            'title' => 'Roles and Permissions',
+            'child' => [
+                'title' => 'Permissions',
+                'href' => route("eon.admin.permissions"),
+                'child' => [
+                    'title' => 'Create a Permission'
+                ]
+            ]
+        ];
+
+        return view('eon.roles::create-permission', ['breadcrumbs' => $breadcrumbs]);
     }
 
     public function store(StorePermissionRequest $request) {

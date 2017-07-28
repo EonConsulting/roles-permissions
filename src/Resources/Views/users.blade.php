@@ -1,11 +1,9 @@
-@extends('layouts.admin')
-@section('site-title')
-    Users
-@endsection
+@extends('layouts.app')
+
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">Roles <div class="col-md-6 pull-right"><input type="text" id="txt_search" class="form-control" onkeyup="search()" placeholder="Search Roles.."></div><div class="clearfix"></div></div>
                     <table class="panel-body table table-hover table-striped" id="users-table">
@@ -30,16 +28,6 @@
                         @endforeach
                         </tbody>
                     </table>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="panel panel-default">
-                    <div class="list-group">
-                        <a href="{{ route('eon.admin.roles') }}" class="list-group-item">Roles</a>
-                        <a href="{{ route('eon.admin.permissions') }}" class="list-group-item">Permissions</a>
-                        <a href="{{ route('eon.admin.roles.users') }}" class="list-group-item active">Users' Roles</a>
-                        <a href="{{ route('eon.admin.groups') }}" class="list-group-item">Groups</a>
-                    </div>
                 </div>
             </div>
         </div>
